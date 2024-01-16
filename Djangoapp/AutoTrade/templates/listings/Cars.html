@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+    <section class="section section-bg" id="call-to-action" style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="cta-content">
+                        <br>
+                        <br>
+                        <h2>Our <em>Cars</em></h2>
+                        <p>AutoTrade brings a complete range of new cars in 2022  with prices. You can search cars by applying filters such as by price, by bodytype, by brand, by seating capacity & more. Also, stay updated with upcoming cars</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Call to Action End ***** -->
+
+    <!-- ***** Fleet Starts ***** -->
+    <section class="section" id="trainers">
+        <div class="container">
+            <br>
+            <br>
+            <div class="contact-form">
+                <form action="#" id="contact">
+                    
+                    
+                    <div class="col-sm-4 offset-sm-4">
+                    <div class="main-button text-center">
+                        <a href="{% url 'search'%}">Search</a>
+                    </div>
+                    </div>
+                    <br>
+                    <br>
+                </form>
+            </div>
+            <div class="row">
+                {% if listings %}
+                {% for listing in listings  %}
+                        <div class="col-lg-4">
+                            <div class="trainer-item">
+                                <div class="image-thumb">
+                                    <img src="{{ listing.photo_main.url }}" alt="">
+                                </div>
+                               
+                               
+                                <div class="down-content">
+                                    <span>
+                                        <sup>DT</sup>{{ listing.price | intcomma }} 
+                                    </span>
+                                   
+                                    <h4>{{ listing.title }}</h4>
+
+                                    <p>
+                                        <i class="fa fa-dashboard"></i> {{ listing.Mileage | intcomma }} km &nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-cube"></i> {{ listing.Engine_Horsepower}} Cv &nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-cog"></i> {{ listing.Transmission }} &nbsp;&nbsp;&nbsp;
+                                    </p>
+                                   
+
+                                    <ul class="social-icons">
+                                        <li><a href="{% url 'car-details' listing.id  %}">+ View Car</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-lg-4">
+                    <p> Currently there are no listings available </p>
+                </div>
+                {% endif %}
+            </div>   
+            <br>
+                    
+            <nav>
+                <div class="row">
+                    <div class="col-md-12">
+                      {% if listings.has_other_pages %}
+                      <ul class="pagination">
+                        {% if listings.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{listings.previous_page_number}}">&laquo;</a>
+                        </li>
+                        {% else%}
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#">&laquo;</a>
+                        </li>
+                        {% endif %}
+                        {% for i in listings.paginator.page_range %}
+                          {% if listings.number == i%}
+                          <li class="page-item active">
+                            <a class="page-link">{{i}}</a>
+                          </li>
+                          {% else %}
+                          <li class="page-item">
+                            <a class="page-link" href="?page={{i}}">{{i}}</a>
+                          </li>
+                          {% endif %}
+                        {%endfor%}
+                          {% if listings.has_next %}
+                          <li class="page-item">
+                            <a class="page-link" href="?page={{listings.next_page_number}}">&raquo;</a>
+                          </li>
+                          {% else%}
+                          <li class="page-item disabled">
+                            <a class="page-link" href="#">&raquo;</a>
+                          </li>
+                          {% endif %}
+                      </ul>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+            </nav>
+
+        </div>
+    </section>
+
+
+{% endblock %}

@@ -1,0 +1,143 @@
+
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+    <!-- ***** Main Banner Area Start ***** -->
+
+    <div class="main-banner" id="top">
+        
+        <video autoplay muted loop id="bg-video">
+            <source src="{% static 'images/video.mp4'%}" type="video/mp4" />
+            
+
+        </video>
+       
+        <div class="video-overlay header-text">
+            <div class="caption">
+                <h6>Find the Car You Want, Your Way</h6>
+                <br>
+                {% include 'partials/_alerts.html' %}
+                <h2>Best <em>car dealer</em> in town!</h2>
+                    <div class="main-button">
+                       
+                        <a href="{% url 'price'%}">Estimate YOUR CAR</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+   
+
+   <!-- ***** Cars Starts ***** -->
+    <section class="section" id="trainers">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="section-heading">
+                        <h2>Featured <em>Cars</em></h2>
+                        <img src="{% static 'images/line-dec.png'%}" alt="">
+                        <p>               Make a Confident Car-Buying Decision
+                            We give you all the tools you need to find the right used car for you.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% if listings %}
+                {% for listing in listings  %}
+                        <div class="col-lg-4">
+                            <div class="trainer-item">
+                                <div class="image-thumb">
+                                    <img src="{{ listing.photo_main.url }}" alt="">
+                                </div>
+                                <div class="down-content">
+                                    <span>
+                                        <sup>DT</sup>{{ listing.price | intcomma }} 
+                                    </span>
+                                    
+                                    <h4>{{ listing.title }}</h4>
+
+                                    <p>
+                                        <i class="fa fa-dashboard"></i> {{ listing.Mileage | intcomma }} km &nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-cube"></i> {{ listing.Engine_Horsepower}} Cv &nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-cog"></i> {{ listing.Transmission }} &nbsp;&nbsp;&nbsp;
+                                    </p>
+                                   
+
+                                    <ul class="social-icons">
+                                        <li><a href="{% url 'car-details' listing.id  %}">+ View Car</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-lg-4">
+                    <p> Currently there are no listings available </p>
+                </div>
+                {% endif %}
+            </div>
+
+            <br>
+
+            <div class="main-button text-center">
+                <a href="{% url 'Cars'%}">View Cars</a>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Cars Ends ***** -->
+
+    <section class="section section-bg" id="schedule" style="background-image: url(assets/images/about-fullscreen-1-1920x700.jpg)">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="section-heading dark-bg">
+                        <h2>Read <em>About Us</em></h2>
+                        <img src="{% static 'images/line-dec.png'%}" alt="">
+                        <p>AutoTrade.com is Tunisian's leading car search venture that helps users buy cars that are right for them.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cta-content text-center">
+                        <p> Its website  carry rich automotive content such as  reviews, detailed specs and prices,  as well as videos and pictures of all car brands and models available in Tunisia.</p>
+
+                        <p>The platform also has used car classifieds wherein users can upload their cars for sale, and find used cars for buying from individuals and used car dealers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ***** Blog Start ***** -->
+    <section class="section" id="our-classes">
+        <div class="container">
+                    <div class="section-heading">
+                        <h2>Stay updated  <em>pay less</em></h2>
+                        <img src="{% static 'images/line-dec.png'%}" alt="">
+                    </div>
+        </div>
+    </section>
+    <!-- ***** Blog End ***** -->
+
+    <!-- ***** Call to Action Start ***** -->
+    <section class="section section-bg" id="call-to-action" style="background-image: url({% static 'images/banner-image-1-1920x500.jpg'%})">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="cta-content">
+                        <h2>Send us a <em>message</em></h2>
+                        <p>using our form and we'll get back to you with an answer shortly. We will respond to your email request in 24 - 48 business hours.</p>
+                        <div class="main-button">
+                            <a href="{% url 'contact'%}">Contact us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Call to Action End ***** -->
+
+
+{% endblock %}

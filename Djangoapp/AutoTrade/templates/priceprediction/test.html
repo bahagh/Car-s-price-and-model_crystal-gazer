@@ -1,0 +1,414 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<style>
+
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    body1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background-image: linear-gradient(0deg, #EBFCFF 0%, #FFFFFF 89%);
+        font-family: Roboto, sans-serif;
+    }
+    
+    
+    .drop-it-hot {
+        background-color: #41162a;
+        border-radius: 15px;
+        width: 700px;
+        height: 500px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 15px 0 rgba(black, .1);
+        overflow: hidden;
+    }
+    
+    .drop-it-hot:after {
+        content: '';
+        position: absolute;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        border: 2px dashed #E6E7F0;
+        border-radius: 5px;
+        z-index: 0;
+    }
+    
+    .circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        position: absolute;
+        color: #4A90E2;
+        background-color: white;
+        border: 3px solid black;
+        width: 100px;
+        height: 100px;
+    }
+    
+    .circle {
+        transition: transform 150ms ease-in;
+        z-index: 10;
+    }
+    
+    svg {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .circle:before {
+        content: '';
+        background-color: #f8f3f2;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        position: absolute;
+        opacity: 0;
+        transition: transform 250ms ease-in, opacity 200ms ease-in;
+        z-index: 0;
+    }
+    
+    .circle:after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+    
+    .circle:hover {
+        transform: scale(1.2);
+        opacity: .9;
+    }
+    
+    .circle:before {
+        transform: scale(8);
+        opacity: 1;
+    }
+    
+    .circle:after {
+        border: 3px solid white;
+    }
+    
+    svg {
+        color: white;
+        z-index: 1;
+    }
+    
+    .highlight:before {
+        transform: scale(8);
+        opacity: 1;
+    }
+    
+    .highlight:after {
+        border: 3px solid white;
+    }
+    
+    svg {
+        color: white;
+        z-index: 1;
+    }
+    
+    
+    .choose-files {
+        align-self: flex-end;
+        z-index: 10;
+    }
+    
+    .button-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 40px;
+    
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    
+    .button-wrapper.btn:hover {
+        background-color: #4E5056;
+    }
+    
+    .label {
+        margin-bottom: 20px;
+        color: #4E5056;
+        font-size: 18px;
+    }
+    
+    .button-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+    
+    .btn {
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        background-color: #617d9e;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 200ms ease-in;
+    }
+    
+    #gallery {
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: contrast(100%) brightness(100%) sepia(0%) hue-rotate(0deg);
+    }
+    
+    
+    .editor {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 700px;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: white;
+        margin-top: -10px;
+        z-index: 100;
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    
+    .is-visible {
+        transition: transform 500ms ease-in-out, opacity 500ms ease-in-out;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .range-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+    }
+    
+    .range {
+        -webkit-appearance: none;
+        height: 2px;
+        border-radius: 5px;
+        background: #E6E7F0;
+        outline: none;
+        padding: 0;
+        margin: 10px 0;
+    }
+    
+    ::-moz-range-track {
+        background: #E6E7F0;
+        border: 0;
+    }
+    
+    input::-moz-focus-inner,
+    input::-moz-focus-outer {
+        border: 0;
+    }
+    
+    
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 12px;
+        width: 12px;
+        border-radius: 8px;
+        background-color: #1A90E2;
+        cursor: pointer;
+    }
+    
+    input[type=range]::-moz-range-thumb {
+        -webkit-appearance: none;
+        height: 12px;
+        width: 12px;
+        border-radius: 8px;
+        background-color: #4A90E2;
+        cursor: pointer;
+    }
+    
+    input[type=range]::-ms-thumb {
+        -webkit-appearance: none;
+        height: 12px;
+        width: 12px;
+        border-radius: 8px;
+        background-color: #4A90E2;
+        cursor: pointer;
+    }
+</style>
+<script>
+    const dragEvents = ['dragenter', 'dragover', 'dragleave', 'drop'];
+    const dragHighlight = ['dragenter', 'dragover'];
+    const dragUnighlight = ['dragleave', 'drop'];
+    const inputRange = document.querySelectorAll('.editor input');
+    
+    const dropArea = document.getElementById('drop-area');
+    const iconElement = document.querySelector('.circle');
+    const editorElement = document.querySelector('.editor');
+    
+    const preventDefaults = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    };
+    
+    const highlight = () => {
+    iconElement.classList.add('highlight');
+    };
+    
+    const unhighlight = () => {
+    iconElement.classList.remove('highlight');
+    };
+    
+    const previewFile = (file) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = function() {
+    let img = document.createElement('img');
+    img.src = reader.result;
+    document.getElementById('gallery').appendChild(img);
+    editorElement.classList.add('is-visible');
+    }
+    };
+    
+    const handleFiles = (files) => {
+    files = [...files];
+    files.forEach(previewFile);
+    };
+    
+    const handleDrop = (e) => {
+    let dt = e.dataTransfer;
+    let files = dt.files;
+    
+    console.log('files', files);
+    
+    handleFiles(files);
+    };
+    
+    function handleUpdate() {
+    console.log(this.value);
+    const suffix = this.dataset.unit;
+    document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+    
+    inputRange.forEach(input => input.addEventListener('change', handleUpdate));
+    inputRange.forEach(input => input.addEventListener('mousemove', handleUpdate));
+    
+    dragEvents.forEach(eventName => {
+    dropArea.addEventListener(eventName, preventDefaults, false)
+    });
+    
+    dragHighlight.forEach(eventName => {
+    dropArea.addEventListener(eventName, highlight, false)
+    });
+    
+    dragUnighlight.forEach(eventName => {
+    dropArea.addEventListener(eventName, unhighlight, false)
+    });
+    
+    
+    dropArea.addEventListener('drop', handleDrop, false);
+
+
+</script>
+{% include 'partials/_alerts.html' %}
+
+<div class="w-50 ml-0 mr-0 mx-auto text-center">
+    <div>
+        <button class="btn btn-light" type="submit" form="my-form"  >check model </button>
+        <!-- Button trigger modal  style="display: none;" -->
+      <button type="button" class="btn btn-primary" id="my_id" data-toggle="modal" data-target="#exampleModalCenter">
+    Click to see predicted Car Model !!!
+       </button>
+    </div>
+    <br>
+<div class="drop-it-hot ml-5" id="drop-area">
+    <div class="circle">
+        <svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+        </svg>
+    </div>
+    <form class="choose-files" method="post" enctype="multipart/form-data" action="predictImage" id='my-form' >
+        {% csrf_token %}
+       
+        <div class="button-wrapper">
+            <label class="label" for="fileElem">Drag image here to upload or</label>
+            <button type="button" class="btn">Choose image</button>
+            <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)" name="filePath_">
+            <br>
+           
+        </div>
+       
+    </form>
+   
+    <div id="gallery"></div>
+</div>
+
+<div class="editor">
+    <div class="range-wrapper">
+        <label for="contrast">Contrast</label>
+        <input class="range" name="contrast" value="100" type="range" min="0" max="200" value="0" data-unit="%">
+    </div>
+    <div class="range-wrapper">
+        <label for="brightness">Brightness</label>
+        <input class="range" name="brightness" value="100" type="range" min="0" max="200" data-unit="%">
+    </div>
+    <div class="range-wrapper">
+        <label for="blur">Hue</label>
+        <input class="range" name="hue-rotate" value="0" type="range" min="0" max="200" data-unit="deg">
+    </div>
+    <div class="range-wrapper">
+        <label for="sepia">Sepia</label>
+        <input class="range" name="sepia" value="0" type="range" min="0" max="200" data-unit="%">
+    </div>
+</div>
+</div>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Predicted model</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align: center;"><em>This car is  {{predictedLabel}} and we are {{confidence}} % confident</em></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal">Close</button>
+            <a href="{% url 'index'%}">
+            <button type="button" class="btn btn-primary">Back to main</button>
+            </a>
+         </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

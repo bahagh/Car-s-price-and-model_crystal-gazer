@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+   var subjectObject = {
+     "ALFA": ["ROMEOMITO","ROMEOGIULIETTA"] ,
+     "AlfaRomeo": ["Mito","Giulietta"],
+     "Audi": ["A3","A1","Q3","A4","A6","A5","Q5","Q7"],
+     "BAIC": ["YXKENBOS2"],
+     "BMW": ["SERIE3","SERIE1","116","316","320","Serie3GT","SERIE5","X1","X5","X6"],
+     "CHERY":["QQ","TIGGO2","Tiggo","A3","TIGGO3","E3","A5"],
+     "Citroen":["DS3","C4","Berlingo","C3","C2","C-elysee","Nemo","Jumpy","SAXO","C5","DS5","DS4","C1","Jumper"],
+     "DONGFENG":["S50"],
+     "DS":["3","DS3","DS4"],
+     "Dacia":["Sandero","Duster","Dokker","Logan","LOGANMCV"],
+     "Fiat":["Punto","GrandePunto","Doblo","FIORINO","500","Siena","Panda","Uno","PuntoEvo","DUCATO","Palioweekend","Palio","Tipo","500X"],
+     "Ford":["Focus","Fiesta","Fusion","KA","FOCUSBERLINE","Mondeo","Ranger"],
+     "GREATWALL":["WALLM4"],
+     "Haval":["H6"],
+     "Honda":["HR-V"],
+     "Hyundai":["I10","Grandi10","GRANDI10SEDAN","I20","Accent","IX35","Elantra","TUCSON","Veloster"],
+     "IVECO":["DAILY"],
+     "Isuzu":["D-max"],
+     "Jeep":["RENEGADE","Compass"],
+     "Kia":["RIO","Picanto","RIO5P","RIOBERLINE","SPORTAGE","Sportages","Cerato","Optima","SORENTO"],
+     "LAND-ROVER":["RANGEROVEREVOQUE"],
+     "Lancia":["Ypsilon"],
+     "Landrover":["RANGEROVEREVOQUE"],
+     "MAHINDRA":["Hover","Scorpion"],
+     "MERCEDES-BENZ":["ClasseA","ClasseB","ClasseC","CLA","ClasseE","ClasseS","ML","C180","220","A180"],
+     "MGMOTORS":["3","GT","ZS","GS"],
+     "Mazda":["2","Mazda2","3SEDAN","Mazda3","2SEDAN","3","BT-50","Mazda6","CX-5","CX-9"],
+     "Mercedes":["ClasseA","A180","ClasseB","CLA","ClasseC","ClasseE","C180","220","ML"],
+     "Mini":["One","Mini","3PORTES","Cooper"],
+     "Mitsubishi":["Lancer","Pajero","L200","MIRAGE"],
+     "Nissan":["Micra","Qashqai","Juke","Sunny","Navara","X-trail"],
+     "Opel":["Corsa","Astra"],
+     "Peugeot":["208","301","308","207","206+","Partner","BIPPER","2008","3008","Expert","307","206","BipperTepee","508","106","407","206sedan","206plus","107","406","4008"],
+     "Porsche":["Cayenne"],
+     "Renault":["Clio4","Symbol","capture","Clio3","Megane","Megane3","CAPTUR","Clio","Scenic","ClioCampus","Twingo","MeganeEstate","Kangoo","Trafic","Fluence","Laguna","MASTER","KADJAR"]
+     ,"Seat":["Leon","Ibiza","Altea","ARONA"],
+     "Skoda":["Octavia","Fabia"],
+     "Smart":["Fortwo"],
+     "Ssangyong":["Actyon","Family","ACTYONSPORTS","TIVOLI","RextoN","Korando"],
+     "Suzuki":["Baleno","Swift","Celerio","Vitara","S-PRESSO"],
+     "TATA":["XENONSC"],
+     "Toyota":["Yaris","YARISSEDAN","Avensis","COROLLA","Hilux","Rav4","Aygo","LandCruiser","Prado"],
+     "Volkswagen":["Golf7","Polo7","Polo","Golf5","Golf6","Passat","Caddy","POLOSEDAN","Golf","Golf4","GOLFPLUS","Polo3","Polo6","Polo5","Touran","Jetta","PassatCc","Amarok","Transporter","Tiguan","Scirocco","Touareg","Bora"],
+     "Wallys":["Iris"],
+   }
+   
+window.onload = function() {
+     var marqueSel = document.getElementById("marSel");
+     var modelSel = document.getElementById("modSel");
+     for (var x in subjectObject) {
+       marqueSel.options[marqueSel.options.length] = new Option(x, x);
+     }
+   
+     marqueSel.onchange = function() {
+       modelSel.length = 1;
+   var z = subjectObject[this.value];
+       for (var i = 0; i < z.length; i++) {
+           modelSel.options[modelSel.options.length] = new Option(z[i], z[i]);
+       }
+     }
+   }
+
+
+</script>
+
+<section class="section section-bg p-3 mb-2" id="call-to-action" >
+    <div class="container">
+       <div class="row">
+          <div class="col-lg-10 offset-lg-1">
+             <div class="cta-content">
+                <br>
+                <br>
+                <br>
+                <h2><em>Estimate Your Car Price </em></h2>   
+       
+                <br>           
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+
+
+<div class='container'>
+<form action="{% url 'price' %}" id="myForm" method="POST" enctype="multipart/form-data">
+
+  {% csrf_token %}
+  {% include 'partials/_alerts.html' %}
+
+  <br>
+  <h4>Vehicle Specs</h4>
+  <small> If you don't know the model of the car we can help you just click <a href="{% url 'homepage'%}" class="tooltip-test" title="Tooltip">This link</a> </small>
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label for="marSel">Marque</label>
+        <select class="custom-select" class="form-control is-valid" id="marSel" name="marque" required>
+            <option selected>Open this select menu</option>
+            <option value="" selected="selected" disabled>Select Marque</option>
+          </select>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      
+
+      <div class="col-md-6 mb-3">
+        <label for="validationServer02">Model</label>
+              <select class="custom-select" class="form-control is-valid" id="modSel" name="modele" required>
+                <option selected>Open this select menu</option>
+                <option value="" selected="selected" disabled>Select Model</option>
+              </select>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+        
+      </div> 
+    </div>
+
+
+    <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="kilo">Mileage</label>
+            <div class="input-group">
+              <input type="number" name="kilo" class="form-control is-invalid" id="kilo" placeholder="Mileage" aria-describedby="inputGroupPrepend3" required>
+              <div class="invalid-feedback">
+                Please type  mileage driven.
+              </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+          <label for="carburant">Fuel</label>
+            <select class="custom-select" class="form-control is-valid" id="carburant" name="carburant" required>
+              <option  selected="selected" disabled>Select Type</option>
+              <option value="Essence">Essence</option>
+              <option value="Diesel">Diesel</option>
+            </select>
+          <div class="valid-feedback">
+              Looks good!
+          </div>
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+          <label for="Boite">Boite</label>
+          <select class="custom-select" class="form-control is-valid" id="Boite" name="boite" required>
+              <option value="" selected="selected" disabled>Select Type</option>
+              <option value="Automatique">Automatique</option>
+              <option value="Manuelle">Manuelle</option>
+            </select>
+          <div class="valid-feedback">
+              Looks good!
+          </div>
+      </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="puissance">Engine Horsepower</label>
+          <input type="number" name="puissance" class="form-control is-invalid" id="puissance" placeholder="Horsepower" aria-describedby="inputGroupPrepend3" required>
+          <div class="invalid-feedback">
+            Please enter Engine Horsepower of your car .
+          </div>
+        </div>
+        
+
+    <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="gouvernorat">State</label>
+              <select class="custom-select" class="form-control is-valid" id="gouvernorat" name="gouvernorat" required>
+                  <option selected disabled value="">Choose...</option>
+                  {% for gouv in gouvernorats  %}
+                  <option value="{{ gouv }}" required>{{ gouv }}</option>
+                            {% endfor  %}
+                </select>
+              <div class="valid-feedback">
+                  Looks good!
+              </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="marSel">Car age</label>
+            <input type="number" name="age" class="form-control is-invalid" id="validationServerUsername" placeholder="age" aria-describedby="inputGroupPrepend3" required>
+
+            <div class="invalid-feedback">
+              Please enter  age of your car .
+            </div>
+          </div>   
+      </div>
+
+
+    </div>
+    <div class="col-sm">
+      <button type="submit" id="submit"  class="btn btn-primary"  >
+        Submit form
+        </button>
+        
+  </form>
+  <div class="col-sm">
+    <br>     
+
+  
+      <!-- Modal -->
+      
+  </div>
+<div/>
+<!-- Button trigger modal  style="display: none;" -->
+<button type="button" class="btn btn-primary" id="my_id" data-toggle="modal" data-target="#exampleModalCenter">
+    Click to see predicted price
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Predicted price</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {%if not price == 0 %} 
+                
+            
+            <h5> {{price}} DT</h5>
+                {%endif%}
+            <p> You can create a ad for your car on <a href="{% url 'create'%}" class="tooltip-test" title="Tooltip">This link</a> </p>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal">Close</button>
+            <a href="{% url 'index'%}">
+            <button type="button" class="btn btn-primary">Back to main</button>
+            </a>
+         </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

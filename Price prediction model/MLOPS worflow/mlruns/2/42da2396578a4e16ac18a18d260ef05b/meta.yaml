@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Asus/PycharmProjects/testtechnique/mlruns/2/42da2396578a4e16ac18a18d260ef05b/artifacts
+end_time: 1656596319277
+entry_point_name: ''
+experiment_id: '2'
+lifecycle_stage: active
+name: ''
+run_id: 42da2396578a4e16ac18a18d260ef05b
+run_uuid: 42da2396578a4e16ac18a18d260ef05b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1656596269273
+status: 3
+tags: []
+user_id: Asus

@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<br>
+<br>
+<br>
+<br>
+<br>
+ <article id='tabs-5'>
+    <br>
+<div class='container'> 
+
+    <h2 >Statistics on <em>{{listing.Model}}</em> !!</h2>
+    <br>
+    <!-- moeynne-->
+    <div class="row dash-card row_2">
+     
+    <div class="alert alert-primary mr-3 ml-5" role="alert" >
+        Number of ads <a href="#" class="alert-link"> {{nb_an}}</a>
+      </div>
+     
+    <div class="alert alert-secondary mr-3" role="alert">
+        Average price<a href="#" class="alert-link"> {{prix_moy}} dt</a>
+      </div>
+    <div class="alert alert-success mr-3" role="alert">
+        Average mileage<a href="#" class="alert-link"> {{kil_moy}} km</a>
+      </div>
+    <div class="alert alert-danger mr-3" role="alert">
+        Middle age of cars<a href="#" class="alert-link"> {{age_moy}} years</a>
+      </div>
+    <br>
+    </div>
+    <br>
+    <br>
+    <div class="row"> 
+      <div class="col-sm-6" style="background-color:#bae0f8;">
+        <h5>Year~Price</h5>
+        <br>
+        <canvas id="myChart" style="width:150%;max-width:700px"></canvas>
+        <script>
+          
+          var xValues = {{age|safe}};
+          var yValues = {{prix|safe}};
+          new Chart("myChart", {
+           type: "line",
+            data: {
+              labels: xValues,
+              datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues
+              }]
+            },
+            options: {
+              legend: {display: false},
+              scales: {
+                
+              }
+            }
+          });
+          </script>
+        
+      </div>
+      <div class="col-sm-6" style="background-color:#d8dee2;">
+        <h5>Mileage~Price</h5>
+        <br>
+        <canvas id="myChartt" style="width:150%;max-width:700px"></canvas>
+        <script>
+          
+          var xValues = {{kil|safe}};
+          var yValues = {{prix2|safe}};
+          new Chart("myChartt", {
+           type: "line",
+            data: {
+              labels: xValues,
+              datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues
+              }]
+            },
+            options: {
+              legend: {display: false},
+              scales: {
+                
+              }
+            }
+          });
+          </script>
+        
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="row"> 
+        <br>
+      <div class="col-sm-12 m-lg-8">
+        <div id="myPlot" ></div>
+
+          <script>
+          var xArray = {{prix|safe}};
+         
+
+          var data = [{
+            x:xArray,
+            autobinx: false, 
+            type:"histogram",
+            
+            marker: {
+                color: "rgba(255, 200, 102, 0.7)",
+                line: {
+                color:  "rgba(255, 200, 102, 1)", 
+                width: 1
+  
+         } 
+                },
+            opacity: 1.5
+            
+          }];
+          var config = {
+            displayModeBar: false, // this is the line that hides the bar.
+          };
+          var layout = {barmode: "overlay", bargap: 0.05, 
+          bargroupgap: 0.2, title:"Price~Ads number",xaxis: {title: "Price"}, 
+          yaxis: {title: "Ads number"}};
+
+          Plotly.newPlot("myPlot", data, layout,config);
+          </script>
+      </div>
+    </div>
+    <div class="row"> 
+      <div class="col-sm-6">
+        <div id="myPlot2" style="width:100%;max-width:700px"></div>
+
+          <script>
+          var xArray = {{age|safe}};
+         
+
+          var data = [{
+            y:xArray,
+            autobinx: false, 
+            type:"histogram",
+            
+            marker: {
+                color: "rgba(215, 189, 226, 0.7)",
+                line: {
+                color:  "rgba(165, 105, 189, 1)", 
+                width: 1
+  
+         } 
+                },
+            opacity: 1.5
+            
+          }];
+          var config = {
+            displayModeBar: false, // this is the line that hides the bar.
+          };
+          var layout = {barmode: "overlay", bargap: 0.05, 
+          bargroupgap: 0.2,title:"Year~Ads number",xaxis: {title: "Ads number"}, 
+          yaxis: {title: "Year"}};
+
+          Plotly.newPlot("myPlot2", data, layout,config);
+          </script>
+      </div>
+      <div class="col-sm-6">
+        <div id="myPlot3" style="width:100%;max-width:700px"></div>
+
+          <script>
+          var xArray = {{kil|safe}};
+         
+          var data = [{
+            y:xArray,
+            autobinx: false, 
+            type:"histogram",
+            
+            marker: {
+                color: "rgba(174, 214, 241 , 0.7)",
+                line: {
+                color:  "rgba(93, 173, 226, 1)", 
+                width: 1
+  
+         } 
+                },
+            opacity: 1.5
+            
+          }];
+          var config = {
+            displayModeBar: false, // this is the line that hides the bar.
+          };
+          var layout = {barmode: "overlay", bargap: 0.05, 
+          bargroupgap: 0.2,title:"Mileage~Ads number",xaxis: {title: "Ads number"}, 
+          yaxis: {title: "Mileage"}};
+
+          Plotly.newPlot("myPlot3", data, layout,config);
+          </script>
+      </div>
+    </div>  
+    <div class="row"> 
+      <div class="col-sm-6">
+        <canvas id="carb" style="width:100%;max-width:600px"></canvas>
+
+        <script>
+        var xValues = ["Petrol", "Diesel"];
+        var yValues = [{{ess|safe}},{{dies|safe}}];
+        var barColors = [
+          "#F08080",
+          "#A9CCE3",
+        ];
+
+        new Chart("carb", {
+          type: "doughnut",
+          data: {
+            labels: xValues,
+            datasets: [{
+              backgroundColor: barColors,
+              data: yValues
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: "Fuel"
+            }
+          }
+        });
+        </script>
+      </div>
+      <div class="col-sm-6">
+        <canvas id="boite" style="width:100%;max-width:600px"></canvas>
+
+        <script>
+        var xValues = ["Manuel", "Automatic"];
+        var yValues = [{{manu|safe}},{{auto|safe}}];
+        var barColors = [
+          
+          "#2b5797",
+          "#e8c3b9",
+          "#1e7145"
+        ];
+
+        new Chart("boite", {
+          type: "doughnut",
+          data: {
+            labels: xValues,
+            datasets: [{
+              backgroundColor: barColors,
+              data: yValues
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: "Transmission"
+            }
+          }
+        });
+        </script>
+      </div>
+    </div>      
+  </article> 
+</section>
+</div>
+</div>
+</div>
+<br>
+</div>
+{% endblock %}
